@@ -20,25 +20,23 @@ plugins {
 }
 
 dependencies {
-	  implementation(project(":spannerclient"))
+    implementation(project(":spannerclient"))
     implementation(Config.Libs.typesafe_config)
-	  implementation(Config.Libs.slf4j)
-	  implementation(Config.Libs.logback_classic)
-	  implementation(Config.Libs.logback_core)
-	  implementation(Config.Libs.protobuf)
-	  implementation(Config.Libs.grpc_core)
-	  implementation(Config.Libs.grpc_protobuf)
-	  implementation(Config.Libs.grpc_stub)
-	  implementation(Config.Libs.grpc_netty)
-	  implementation(Config.Libs.guava)
-	  implementation(Config.Libs.spanner)
-	  implementation(Config.Libs.pubsub)
-	  //implementation(Config.Libs.storage)
+    implementation(Config.Libs.slf4j)
+    implementation(Config.Libs.protobuf)
+    implementation(Config.Libs.grpc_core)
+    implementation(Config.Libs.grpc_protobuf)
+    implementation(Config.Libs.grpc_stub)
+    implementation(Config.Libs.grpc_netty)
+    implementation(Config.Libs.guava)
+    implementation(Config.Libs.spanner)
+    implementation(Config.Libs.pubsub)
+    //implementation(Config.Libs.storage)
     implementation(Config.Libs.bigquery)
-	  //implementation(Config.Libs.rocksdb)
+    //implementation(Config.Libs.rocksdb)
 
     // LMAX
-	  implementation("com.lmax:disruptor:3.4.2")
+    implementation("com.lmax:disruptor:3.4.2")
 
     // AutoValue
     compileOnly("com.google.auto.value:auto-value-annotations:1.6.2")
@@ -49,14 +47,13 @@ dependencies {
     implementation("io.netty:netty-buffer:4.1.33.Final")
 
     // Protobuf
-	  protobuf(files("src/main/protos"))
+    protobuf(files("src/main/protos"))
 
     // Static Analysis
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
     annotationProcessor("com.uber.nullaway:nullaway:0.7.5")
     errorprone("com.google.errorprone:error_prone_core:2.3.3")
     errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
-
 }
 
 // ErrorProne

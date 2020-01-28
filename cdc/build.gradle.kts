@@ -12,26 +12,26 @@ plugins {
 }
 
 dependencies {
-	  implementation(project(":spannerclient"))
-	  implementation(project(":core"))
-	  implementation(Config.Libs.typesafe_config)
-	  implementation(Config.Libs.slf4j)
-	  implementation(Config.Libs.logback_classic)
-	  implementation(Config.Libs.logback_core)
-	  implementation(Config.Libs.groovy) // For logback
-	  implementation(Config.Libs.protobuf)
-	  implementation(Config.Libs.grpc_core)
-	  implementation(Config.Libs.grpc_protobuf)
-	  implementation(Config.Libs.grpc_stub)
-	  implementation(Config.Libs.grpc_netty)
-	  implementation(Config.Libs.guava)
-	  implementation(Config.Libs.spanner)
-	  implementation(Config.Libs.pubsub)
-	  //implementation(Config.Libs.storage)
-	  //implementation(Config.Libs.rocksdb)
+    implementation(project(":spannerclient"))
+    implementation(project(":core"))
+    implementation(Config.Libs.typesafe_config)
+    implementation(Config.Libs.slf4j)
+    implementation(Config.Libs.logback_classic)
+    implementation(Config.Libs.logback_core)
+    implementation(Config.Libs.groovy) // For logback
+    implementation(Config.Libs.protobuf)
+    implementation(Config.Libs.grpc_core)
+    implementation(Config.Libs.grpc_protobuf)
+    implementation(Config.Libs.grpc_stub)
+    implementation(Config.Libs.grpc_netty)
+    implementation(Config.Libs.guava)
+    implementation(Config.Libs.spanner)
+    implementation(Config.Libs.pubsub)
+    //implementation(Config.Libs.storage)
+    //implementation(Config.Libs.rocksdb)
 
     // LMAX
-	  implementation("com.lmax:disruptor:3.4.2")
+    implementation("com.lmax:disruptor:3.4.2")
 
     // AutoValue
     compileOnly("com.google.auto.value:auto-value-annotations:1.6.2")
