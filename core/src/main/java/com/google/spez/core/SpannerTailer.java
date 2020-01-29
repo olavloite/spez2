@@ -369,8 +369,12 @@ public class SpannerTailer {
                       ListenableFuture<Boolean> x =
                           service.submit(
                               () -> {
+				try {
                                 processRow(handler, row, tsColName);
                                 lastProcessedTimestamp = row.getTimestamp(tsColName).toString();
+	                        } catch (Exception e) {
+				log.error("caught exception", e);
+				}
                                 return Boolean.TRUE;
                               });
 

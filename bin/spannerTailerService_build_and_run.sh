@@ -2,4 +2,5 @@
 
 set -ef
 
-docker build -t spez/spanner-tailer-service -f cdc/docker/Dockerfile.SpannerTailerService . && docker run -p 9010:9010 -t spez/spanner-tailer-service:latest
+docker build -t spez/spanner-tailer-service -f cdc/docker/Dockerfile.SpannerTailerService . && \
+       docker run -it --rm -p 9010:9010 -t spez/spanner-tailer-service:latest

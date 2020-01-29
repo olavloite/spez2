@@ -25,6 +25,12 @@ import java.util.stream.IntStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 1) telemetry / logging
+ * 2) lazer sword(disruptor) is throwing weird errors
+ * 3) classic(multi-thread) is spooling out empty records
+ * 4) setup streaming partial result set combiner
+ */
 public class Spez {
   private static final Logger log = LoggerFactory.getLogger(Spez.class);
 
