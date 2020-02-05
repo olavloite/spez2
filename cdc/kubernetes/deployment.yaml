@@ -31,7 +31,7 @@ spec:
             secretName: "service-account"
       containers:
       - name: spanner-tail
-        image: gcr.io/<repo_name>
+        image: gcr.io/retail-common-services-249016/spez
         imagePullPolicy: Always
         volumeMounts:
             - name: "service-account"
@@ -39,6 +39,9 @@ spec:
               readOnly: true
               #- name: "certs"
               #mountPath: "/etc/ssl/certs"
+        env:
+            - name: GOOGLE_APPLICATION_CREDENTIAL
+              value: /var/run/secret/cloud.google.com/key.json
         resources:
           limits:
             memory: 16Gi
