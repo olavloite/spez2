@@ -4,7 +4,7 @@
 # REFERENCE GUIDE: Leveraging Spez for continuous data export from Spanner
 
 gcloud iam service-accounts create spez-tailer-sa --display-name "Spez Tailer Service Account"
-gcloud spanner instances create spez-sink-instance --config=regional-us-central1 --description="Event sink" --nodes=1
+gcloud spanner instances create spez-sink-instance --config=regional-us-central1 --description="Spez sink instance" --nodes=1
 gcloud spanner databases create spez-sink-database --instance=spez-sink-instance --ddl='CREATE TABLE sink_table(UUID STRING(MAX) NOT NULL, Timestamp TIMESTAMP NOT NULL OPTIONS (allow_commit_timestamp=true)) PRIMARY KEY(UUID); CREATE TABLE lpts_table (Id INT64 NOT NULL, CommitTimestamp TIMESTAMP NOT NULL OPTIONS (allow_commit_timestamp=true), LastProcessedTimestamp STRING(128) NOT NULL,) PRIMARY KEY (Id)'
 gcloud spanner instances set-iam-policy spez-sink-instance spez-sink-instance-policy.json
 
@@ -17,7 +17,7 @@ gcloud container clusters create spez-tailer-cluster --region=us-central1 --mach
 gcloud container clusters get-credentials spez-tailer-cluster --region=us-central1
 cd ~/spez2/cdc/kubernetes
 gcloud iam service-accounts keys create service-account.json --iam-account="spez-tailer-sa@${DEVSHELL_PROJECT_ID}.iam.gserviceaccount.com"
-kubectl create secret generic spez-tailer-sa-key --from-file=service-account.json
+kubectl create secret generic service-account --from-file=service-account.json
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
 
@@ -38,7 +38,7 @@ gcloud functions deploy spez-lpts-function \
 
 # REFERENCE GUIDE: Archiving Spanner data in Cloud Storage with Spez
 
-gcloud iam service-accounts create spez-archive-function-sa --display-name "Event Archive Function Service Account"
+gcloud iam service-accounts create spez-archive-function-sa --display-name "Spez Archive Function Service Account"
 gsutil mb -l us-central1 "gs://${DEVSHELL_PROJECT_ID}-spez-archive-bucket"
 gsutil iam ch "serviceAccount:spez-archive-function-sa@${DEVSHELL_PROJECT_ID}.iam.gserviceaccount.com:roles/storage.objectCreator"
 

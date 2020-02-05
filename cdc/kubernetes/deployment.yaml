@@ -39,9 +39,6 @@ spec:
               readOnly: true
               #- name: "certs"
               #mountPath: "/etc/ssl/certs"
-        env:
-            - name: GOOGLE_APPLICATION_CREDENTIAL
-              value: /var/run/secret/cloud.google.com/key.json
         resources:
           limits:
             memory: 16Gi
