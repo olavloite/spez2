@@ -16,74 +16,36 @@
 
 package retail
 
-import (
-	"context"
-	"fmt"
-	"os"
 
-	"cloud.google.com/go/pubsub"
-	"cloud.google.com/go/spanner"
+import (
+        "cloud.google.com/go/pubsub"
+        "cloud.google.com/go/spanner"
+        "context"
+        "log"
 )
 
-// GCP_PROJECT is automatically set in the GCF environment.
-var project = os.Getenv("GCP_PROJECT")
-var databaseName = "projects/your-project-id/instances/your-instance-id/databases/your-database-id"
+var databaseName = "projects/retail-common-services-249016/instances/test-db/databases/test"
 
-// LastProcessedTimestamp records the last processed timestamp to bootstrap the tailer.
-func LastProcessedTimestamp(ctx context.Context, msg pubsub.Message) error {
-	if msg.Attributes["Replay"] == "True" {
-		return nil
-	}
+func LastProcessedTimestamp(ctx context.Context, msg *pubsub.Message) error {
 
-	client, err := createSpannerClient(ctx)
-	if err != nil {
-		return err
-	}
-	defer client.Close()
+        client, err := spanner.NewClient(ctx, databaseName)
+        if err != nil {
+                log.Fatal(err)
+        }
+	
+        columns := []string{"Id", "LastProcessedTimestamp", "CommitTimestamp"}
 
-	mutations := constructMutations(msg)
-	err = applyMutations(ctx, client, mutations)
-	if err != nil {
-		return err
-	}
+	      m := []*spanner.Mutation{
+                        spanner.InsertOrUpdate("lpts_table", columns, []interface{}{1, msg.Attributes["Timestamp"], spanner.CommitTimestamp,}),
+                }
 
-	return nil
-}
-
-func createSpannerClient(ctx context.Context) (*spanner.Client, error) {
-	client, err := spanner.NewClient(ctx, databaseName)
-	if err != nil {
-		return nil, fmt.Errorf("Failed to create Spanner client: %v", err)
-	}
-	return client, nil
-}
-
-func constructMutations(msg pubsub.Message) []*spanner.Mutation {
-	return []*spanner.Mutation{
-		spanner.InsertOrUpdate(
-			"LastProcessedTimestamp",
-			[]string{
-				"Id",
-				"LastProcessedTimestamp",
-				"CommitTimestamp",
-			},
-			[]interface{}{
-				1,
-				msg.Attributes["Timestamp"],
-				spanner.CommitTimestamp,
-			},
-		),
-	}
-}
-
-func applyMutations(
-	ctx context.Context,
-	client *spanner.Client,
-	mutations []*spanner.Mutation,
-) error {
-	_, err := client.Apply(ctx, mutations)
-	if err != nil {
-		return fmt.Errorf("Failed to apply row mutation: %v", err)
-	}
-	return nil
+                go func(client *spanner.Client, ctx context.Context, m []*spanner.Mutation,  msg *pubsub.Message) {
+                        _, err1 := client.Apply(ctx, m)
+                        if err1 != nil {
+                                log.Print(err1)
+                        } else {
+                            msg.Ack()
+                        }
+                }(client, ctx, m, msg)
+    return nil
 }
