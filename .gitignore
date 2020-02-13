@@ -50,3 +50,5 @@ price/out
 retail.iml
 retail-common-services.iml
 secrets/
+cdc/kubernetes/service-account.json
+refGuide/terraform/spez/.*
