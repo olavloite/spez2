@@ -1,4 +1,4 @@
 
-credentials_file = "/home/ryanprice/iam-tester.json"
+credentials_file = "~/iam-tester.json"
 
-project = "ryanprice"
+project = "retail-common-services-249016"
